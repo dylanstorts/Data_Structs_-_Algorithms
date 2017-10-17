@@ -1,0 +1,142 @@
+// Example program
+#include <iostream>
+using namespace std;
+
+const int CAPACITY = 5;
+
+
+class Queue{
+ private:
+        int QueueArr[CAPACITY];
+        int front, rear;
+ public:
+        Queue(){
+            front = 0;
+            rear = 0;
+        }
+        void Enqueue(int val){
+            QueueArr[rear] = val;
+            rear++;
+            
+            if(rear == CAPACITY){
+                rear = 0;
+            }
+        }
+        int Dequeue(){
+            front++;
+            
+            if(front == CAPACITY){
+                front = 0;
+                    if(front == rear){
+                        front = 0;
+                        rear = 0;
+                    }
+                return QueueArr[CAPACITY - 1];
+            }
+            
+            return QueueArr[front - 1];
+        }
+        int Peek(){
+            return QueueArr[front];
+        }
+        bool isFull(){
+            if( ((rear + 1) % CAPACITY) == front ){
+                return true;
+            }
+            
+            return false;
+        }
+        bool isEmpty(){
+            if( rear == 0 && front == 0){
+                return true;
+            }
+            
+            return false;
+        }
+        void Print(){
+            int count = 0;
+         
+            if(rear < front){
+             //here rear has wrapped around the queue array
+             for(int i = count; i < rear; i++){
+              cout<<" | " << QueueArr[i];
+              count++;   
+             }
+             
+             while(count < front){
+              cout<< " | ";
+              count++;
+             }
+             
+             while(count < CAPACITY){
+              cout<<QueueArr[count] << " | ";
+              count++;
+             }
+            }
+            else{
+             //here front is to the left of rear in the array
+             while(count < front){
+              cout<< " | ";
+              count++;
+             }
+             
+             for(int i = count; i < rear; i++){
+              cout<<" | " << QueueArr[i];
+              count++;   
+             }
+             
+             while(count < CAPACITY){
+              cout << " | ";
+              count++;
+             }
+             
+             
+            }
+        }
+};
+
+int main()
+{
+    Queue myQueue = Queue();
+    
+  cout << "Queue Options:\nEnter 1 to enter a value\nEnter 2 to Dequeue\nEnter 3 to Peek\nEnter 4 to Print\n Enter 5 to EXIT"<<endl;
+  int input;
+  while(true){
+      
+   cin>>input;
+   
+   switch(input){
+    case 1: 
+            cout<<"What will the number be?:"; cin>>input;
+            if( !myQueue.isFull() )
+                myQueue.Enqueue(input);
+            else
+                cout<<"Queue was full!\n\n"<<endl;
+            break;
+    case 2: 
+            if( !myQueue.isEmpty() ){
+                myQueue.Dequeue();
+                cout<<"Dequeued."<<endl;
+            }
+            else
+                cout<<"Queue was empty!\n\n"<<endl;
+            break;
+    case 3: 
+            if( !myQueue.isEmpty() )
+                cout<<myQueue.Peek()<<endl;
+            else
+                cout<<"Can't peek, empty queue!\n\n"<<endl;
+            break;
+    case 4:
+            myQueue.Print();
+            break;
+            
+    default:break;
+   }
+   
+   //////////////
+    cout << "Queue Options:\nEnter 1 to enter a value\nEnter 2 to Dequeue\nEnter 3 to Peek\nEnter 4 to Print\n Enter 5 to EXIT"<<endl;  
+  }
+  
+  
+}
